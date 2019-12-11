@@ -1,0 +1,19 @@
+---
+
+- name: Ensure Python 3 and Python Pip is installed (YUM)
+  yum:
+    name:
+      - python3
+      - python3-pip
+      - python3-venv
+    state: present
+  when: ansible_pkg_mgr == "yum"
+
+- name: Ensure Python 3 and Python Pip is installed (DNF)
+  dnf:
+    name:
+      - python3
+      - python3-pip
+      - python3-venv
+    state: present
+  when: ansible_pkg_mgr == "dnf"

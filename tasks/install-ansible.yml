@@ -1,0 +1,82 @@
+---
+
+- name: Ensure the Ansible install directory exists
+  file:
+    path: "{{ controller_ansible_install_dir }}"
+    state: directory
+
+- name: Get the version information of the latest release of Ansible
+  uri:
+    url: https://pypi.org/pypi/ansible/json
+    return_content: true
+    body_format: json
+  register: controller_get_latest_ansible_version
+  when: controller_ansible_version is not defined
+        or not controller_ansible_version
+
+- name: Ensure the controller_ansible_version variable is set
+  set_fact:
+    controller_ansible_version: "{{ controller_get_latest_ansible_version.json.info.version }}"
+  when: controller_ansible_version is not defined
+        or not controller_ansible_version
+
+- name: Ensure Ansible is installed in a virtual environment
+  pip:
+    name: ansible
+    version: "{{ controller_ansible_version }}"
+    state: present
+    virtualenv: "{{ controller_ansible_install_dir }}/ansible-{{ controller_ansible_version }}"
+    virtualenv_site_packages: true
+    virtualenv_command: "{{ controller_python3_path }} -m venv"
+
+- name: Ensure the current release is symlinked in the install directory
+  file:
+    src: "{{ controller_ansible_install_dir }}/ansible-{{ controller_ansible_version }}"
+    dest: "{{ controller_ansible_install_dir }}/{{ controller_ansible_current_dirname }}"
+    state: link
+
+- name: Ensure Ansible configuration directory exists
+  file:
+    path: "{{ controller_ansible_config_path | dirname }}"
+    state: directory
+
+- name: Check to see if Ansible config file exists
+  stat:
+    path: "{{ controller_ansible_config_path }}"
+  register: controller_check_ansible_config
+
+- name: Ensure [defaults] exists in ansible.cfg
+  lineinfile:
+    line: "[defaults]"
+    path: "{{ controller_ansible_config_path }}"
+    regexp: "^\\[defaults\\]$"
+    insertafter: BOF
+    create: true
+    state: present
+  when: not controller_check_ansible_config.stat.exists
+
+- name: Ensure inventory parameter exists in ansible.cfg
+  lineinfile:
+    line: "inventory = {{ controller_ansible_inventory_path }}"
+    path: "{{ controller_ansible_config_path }}"
+    regexp: "^inventory\\s+=\\s+"
+    insertafter: "[defaults]"
+    create: true
+    state: present
+  when: not controller_check_ansible_config.stat.exists
+
+- name: Ensure Ansible inventory directory exists
+  file:
+    path: "{{ controller_ansible_inventory_path | dirname }}"
+    state: directory
+
+- name: Check to see if Ansible inventory file exists
+  stat:
+    path: "{{ controller_ansible_inventory_path }}"
+  register: controller_check_ansible_inventory
+
+- name: Ensure Ansible inventory file exists
+  file:
+    path: "{{ controller_ansible_inventory_path }}"
+    state: touch
+  when: not controller_check_ansible_inventory.stat.exists

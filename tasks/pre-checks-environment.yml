@@ -1,0 +1,13 @@
+---
+
+- name: Check the path for Python
+  command: which python3
+  register: controller_check_python_3_path
+  failed_when: controller_check_python_3_path.rc > 0
+  changed_when: false
+  when: controller_python3_path is not defined
+
+- name: Ensure the path to Python 3 is set as a fact
+  set_fact:
+    controller_python3_path: "{{ controller_check_python_3_path.stdout }}"
+  when: controller_python3_path is not defined

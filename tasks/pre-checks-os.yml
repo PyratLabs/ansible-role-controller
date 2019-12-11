@@ -1,0 +1,37 @@
+---
+
+- name: Check that Python 3 is installed
+  command: which python3
+  register: controller_check_python_3_installed
+  failed_when: false
+  changed_when: false
+
+- name: Fail play if Python 3 is not installed
+  fail:
+    msg: Python 3 was not found, please ensure this is installed.
+  when: controller_check_python_3_installed.rc > 0
+        and not controller_install_os_dependencies
+
+- name: Check that pip3 is installed
+  command: which pip3
+  register: controller_check_python_pip_installed
+  failed_when: false
+  changed_when: false
+
+- name: Fail play if pip3 is not installed
+  fail:
+    msg: pip3 was not found, please ensure this is installed.
+  when: controller_check_python_pip_installed.rc > 0
+        and not controller_install_os_dependencies
+
+- name: Check that python3-venv is installed
+  command: python3 -m venv --help
+  register: controller_check_python_3_venv_installed
+  failed_when: false
+  changed_when: false
+
+- name: Fail play if python3-venv is not installed
+  fail:
+    msg: python3-venv was not found, please ensure this is installed.
+  when: controller_check_python_3_venv_installed.rc > 0
+        and not controller_install_os_dependencies

@@ -1,48 +1,79 @@
-Role Name
-=========
+# Ansible Role: controller
 
-A brief description of the role goes here.
+Ansible role for installing an Ansible Controller into a Python3 VirtualEnv.
 
-Requirements
-------------
+[![Build Status](https://www.travis-ci.org/PyratLabs/ansible-role-controller.svg?branch=master)](https://www.travis-ci.org/PyratLabs/ansible-role-controller)
 
-Any pre-requisites that may not be covered by Ansible itself or the role should
-be mentioned here. For instance, if the role uses the EC2 module, it may be a
-good idea to mention in this section that the boto package is required.
+## Requirements
 
-Role Variables
---------------
+This role requires an existing installation of Ansible. A temporary installation
+can be created by running the following [bootstrap script](bootstrap.sh).
 
-A description of the settable variables for this role should go here, including
-any variables that are in defaults/main.yml, vars/main.yml, and any variables
-that can/should be set via parameters to the role. Any variables that are read
-from other roles and/or the global scope (ie. hostvars, group vars, etc.) should
-be mentioned here as well.
+This role has been tested on Ansible 2.6.0+ against the following Linux Distributions:
 
-Dependencies
-------------
+  - Amazon Linux 2
+  - CentOS 8
+  - CentOS 7
+  - Debian 10
+  - Fedora 29
+  - Fedora 30
+  - Fedora 31
+  - Ubuntu 18.04 LTS
 
-A list of other roles hosted on Galaxy should go here, plus any details in
-regards to parameters that may need to be set for other roles, or variables that
-are used from other roles.
+## Disclaimer
 
-Example Playbook
-----------------
+If you have any problems please create a GitHub issue, I maintain this role in
+my spare time so I cannot promise a speedy fix delivery.
 
-Including an example of how to use your role (for instance, with variables
-passed in as parameters) is always nice for users too:
+## Role Variables
 
-    - hosts: servers
-      roles:
-         - { role: ansible-role-controller, x: 42 }
 
-License
--------
+| Variable                             | Description                                                                 | Default Value             |
+|--------------------------------------|-----------------------------------------------------------------------------|---------------------------|
+| `controller_ansible_version`         | Use a specific version of Ansible, eg. `2.9.0`. Specify `false` for latest. | `false`                   |
+| `controller_ansible_install_dir`     | Installation directory to put Ansible virtual environments.                 | `$HOME/ansible`           |
+| `controller_ansible_config_path`     | Path to the default ansible.cfg file to use.                                | `$HOME/.ansible.cfg`      |
+| `controller_ansible_inventory_path`  | Path to the default ansible inventory file.                                 | `$HOME/ansible/hosts.yml` |
+| `controller_ansible_project_dir`     | Directory to put Ansible projects.                                          | `$HOME/projects`          |
+| `controller_ansible_current_dirname` | Name for the currently active Ansible Virtualenv.                           | current                   |
+| `controller_install_os_dependencies` | Allow role to install OS dependencies.                                      | `false`                   |
+| `controller_python3_path`            | Specify a path to a specific python version to use in virtualenv.           | _NULL_                    |
+
+## Dependencies
+
+No dependencies on other roles.
+
+## Example Playbook
+
+Example playbook for installing to single user:
+
+```yaml
+- hosts: control_hosts
+  roles:
+     - { role: xanmanning.controller, controller_ansible_version: 2.6.5 }
+```
+
+Example playbook for installing the latest Ansible version globally:
+
+```yaml
+---
+- hosts: control_hosts
+  become: true
+  vars:
+    controller_install_os_dependencies: true
+    controller_ansible_install_dir: /opt/ansible/bin
+    controller_ansible_config_path: /etc/ansible/ansible.cfg
+    controller_ansible_inventory_path: /etc/ansible/hosts
+    controller_ansible_project_dir: /opt/ansible/projects
+    controller_ansible_current_dirname: current
+  roles:
+    - role: xanmanning.controller
+```
+
+## License
 
 BSD
 
-Author Information
-------------------
+## Author Information
 
-An optional section for the role authors to include contact information, or a
-website (HTML is not allowed).
+[Xan Manning](https://xanmanning.co.uk/)

@@ -1,2 +1,13 @@
 ---
-# tasks file for ansible-role-controller
+
+- import_tasks: pre-checks-os.yml
+
+- include_tasks: "{{ ansible_os_family | lower }}/install-os-dependencies.yml"
+  when: controller_install_os_dependencies is defined
+        and controller_install_os_dependencies
+
+- import_tasks: pre-checks-environment.yml
+
+- import_tasks: install-ansible.yml
+
+- import_tasks: post-checks-environment.yml
