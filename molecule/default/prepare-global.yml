@@ -4,5 +4,7 @@
   hosts: all
   become: true
   tasks:
-    - debug:
-        msg: "This is a dummy playbook"
+    - name: Ensure prerequisite git packages are installed
+      package:
+        name: git
+        state: present

@@ -1,0 +1,16 @@
+---
+
+{% if controller_ansible_galaxy_roles is defined and controller_ansible_galaxy_roles is iterable %}
+{% for role in controller_ansible_galaxy_roles %}
+- src: {{ role.src }}
+{% if role.version is defined %}
+  version: {{ role.version }}
+{% endif %}
+{% if role.scm is defined %}
+  scm: {{ role.scm }}
+{% endif %}
+{% if role.name is defined %}
+  name: {{ role.name }}
+{% endif %}
+{% endfor %}
+{% endif %}

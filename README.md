@@ -34,10 +34,12 @@ my spare time so I cannot promise a speedy fix delivery.
 | `controller_ansible_install_dir`     | Installation directory to put Ansible virtual environments.                 | `$HOME/ansible`           |
 | `controller_ansible_config_path`     | Path to the default ansible.cfg file to use.                                | `$HOME/.ansible.cfg`      |
 | `controller_ansible_inventory_path`  | Path to the default ansible inventory file.                                 | `$HOME/ansible/hosts.yml` |
-| `controller_ansible_project_dir`     | Directory to put Ansible projects.                                          | `$HOME/projects`          |
+| `controller_ansible_projects_dir`    | Directory to put Ansible projects.                                          | `$HOME/projects`          |
+| `controller_ansible_roles_dir`       | Directory to install Ansible Galaxy roles to.                               | `$HOME/.ansible/roles`    |
 | `controller_ansible_current_dirname` | Name for the currently active Ansible Virtualenv.                           | current                   |
 | `controller_install_os_dependencies` | Allow role to install OS dependencies.                                      | `false`                   |
 | `controller_python3_path`            | Specify a path to a specific python version to use in virtualenv.           | _NULL_                    |
+| `controller_ansible_galaxy_roles`    | List of Ansible roles to be installed with `ansible-galaxy`. See notes.     | _NULL_                    |
 
 ## Dependencies
 
@@ -64,8 +66,16 @@ Example playbook for installing the latest Ansible version globally:
     controller_ansible_install_dir: /opt/ansible/bin
     controller_ansible_config_path: /etc/ansible/ansible.cfg
     controller_ansible_inventory_path: /etc/ansible/hosts
-    controller_ansible_project_dir: /opt/ansible/projects
+    controller_ansible_projects_dir: /opt/ansible/projects
+    controller_ansible_roles_dir: /opt/ansible/roles
     controller_ansible_current_dirname: current
+    controller_ansible_galaxy_roles:
+      - name: controller
+        src: xanmanning.controller
+      - name: git
+        src: https://github.com/geerlingguy/ansible-role-git
+        scm: git
+        version: 2.1.0
   roles:
     - role: xanmanning.controller
 ```
@@ -84,6 +94,27 @@ following:
 
 ```bash
 source /opt/ansible/bin/current/bin/activate
+```
+
+### Note about `controller_ansible_galaxy_roles`
+
+This is a list of Ansible roles to be installed using `ansible-galaxy`. This
+variable needs to be structured as per the below example:
+
+```yaml
+controller_ansible_galaxy_roles:
+  # Install the latest xanmanning.k3s role
+  - src: xanmanning.k3s
+
+  # Install the latest xanmanning.controller role as "controller"
+  - name: controller
+    src: xanmanning.controller
+
+  # Install geerlingguy.jenkins version 3.8.1 from github as "jenkins"
+  - name: jenkins
+    src: https://github.com/geerlingguy/ansible-role-jenkins
+    scm: git
+    version: 3.8.1
 ```
 
 ## License

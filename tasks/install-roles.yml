@@ -1,0 +1,20 @@
+---
+
+- name: Ensure ansible uses the venv for python
+  set_fact:
+    controller_ansible_python_interpreter: "{{ ansible_python_interpreter | default(omit) }}"
+    ansible_python_interpreter: "{{ controller_ansible_install_dir }}/{{ controller_ansible_current_dirname }}/bin/venv"
+
+- name: Ensure an ansible-galaxy requirements.yml file contains a list of roles
+  template:
+    src: requirements.yml.j2
+    dest: "/tmp/controller-requirements.yml"
+
+- name: Ensure ansible roles are installed using ansible-galaxy
+  command: "ansible-galaxy install -f -r /tmp/controller-requirements.yml"
+  changed_when: false
+
+- name: Ensure ansible uses original python interpreter
+  set_fact:
+    ansible_python_interpreter: "{{ controller_ansible_python_interpreter }}"
+  when: controller_ansible_python_interpreter is defined

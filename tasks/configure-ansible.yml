@@ -1,0 +1,47 @@
+---
+
+- name: Check to see if Ansible config file exists
+  stat:
+    path: "{{ controller_ansible_config_path }}"
+  register: controller_check_ansible_config
+
+- name: Ensure [defaults] exists in ansible.cfg
+  lineinfile:
+    line: "[defaults]"
+    path: "{{ controller_ansible_config_path }}"
+    regexp: "^\\[defaults\\]$"
+    insertafter: BOF
+    create: true
+    state: present
+  when: not controller_check_ansible_config.stat.exists
+
+- name: Ensure inventory parameter exists in ansible.cfg
+  lineinfile:
+    line: "inventory = {{ controller_ansible_inventory_path }}"
+    path: "{{ controller_ansible_config_path }}"
+    regexp: "^inventory\\s+=\\s+"
+    insertafter: "[defaults]"
+    create: true
+    state: present
+  when: not controller_check_ansible_config.stat.exists
+
+- name: Ensure roles parameter exists in ansible.cfg
+  lineinfile:
+    line: "roles_path = {{ controller_ansible_roles_dir }}"
+    path: "{{ controller_ansible_config_path }}"
+    regexp: "^roles_path\\s+=\\s+"
+    insertafter: "^inventory\\s+=\\s+"
+    create: true
+    state: present
+  when: not controller_check_ansible_config.stat.exists
+
+- name: Check to see if Ansible inventory file exists
+  stat:
+    path: "{{ controller_ansible_inventory_path }}"
+  register: controller_check_ansible_inventory
+
+- name: Ensure Ansible inventory file exists
+  file:
+    path: "{{ controller_ansible_inventory_path }}"
+    state: touch
+  when: not controller_check_ansible_inventory.stat.exists

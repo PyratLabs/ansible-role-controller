@@ -32,3 +32,47 @@
     msg: "{{ controller_ansible_install_dir }}/{{ controller_ansible_current_dirname }}/bin/activate not found after play."
   when: not controller_check_ansible_virtualenv_dir.stat.exists
         or not controller_check_ansible_virtualenv_dir.stat.isreg
+
+- name: Check to see if the Ansible config file exists
+  stat:
+    path: "{{ controller_ansible_config_path }}"
+  register: controller_check_ansible_config_file
+
+- name: Fail if the Ansible config file doesn't exist
+  fail:
+    msg: "The specified ansible config file does not exists: {{ controller_ansible_config_path }}"
+  when: not controller_check_ansible_config_file.stat.exists
+        or not controller_check_ansible_config_file.stat.isreg
+
+- name: Check to see if the Ansible inventory file exists
+  stat:
+    path: "{{ controller_ansible_inventory_path }}"
+  register: controller_check_ansible_inventory_file
+
+- name: Fail if the Ansible inventory file doesn't exist
+  fail:
+    msg: "The specified ansible inventory file does not exists: {{ controller_ansible_inventory_path }}"
+  when: not controller_check_ansible_inventory_file.stat.exists
+        or not controller_check_ansible_inventory_file.stat.isreg
+
+- name: Check to see if the Ansible role directory exists
+  stat:
+    path: "{{ controller_ansible_roles_dir }}"
+  register: controller_check_ansible_roles_dir
+
+- name: Fail if the Ansible role directory doesn't exist
+  fail:
+    msg: "The specified ansible role directory does not exists: {{ controller_ansible_roles_dir }}"
+  when: not controller_check_ansible_roles_dir.stat.exists
+        or not controller_check_ansible_roles_dir.stat.isdir
+
+- name: Check to see if the Ansible project directory exists
+  stat:
+    path: "{{ controller_ansible_projects_dir }}"
+  register: controller_check_ansible_projects_dir
+
+- name: Fail if the Ansible project directory doesn't exist
+  fail:
+    msg: "The specified ansible project directory does not exists: {{ controller_ansible_projects_dir }}"
+  when: not controller_check_ansible_projects_dir.stat.exists
+        or not controller_check_ansible_projects_dir.stat.isdir

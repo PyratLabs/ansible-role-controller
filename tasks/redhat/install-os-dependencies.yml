@@ -15,3 +15,15 @@
       - python3-pip
     state: present
   when: ansible_pkg_mgr == "dnf"
+
+- name: Ensure git is installed (YUM)
+  yum:
+    name: git
+    state: present
+  when: ansible_pkg_mgr == "yum"
+
+- name: Ensure git is installed (DNF)
+  dnf:
+    name: git
+    state: present
+  when: ansible_pkg_mgr == "dnf"

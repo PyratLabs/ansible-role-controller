@@ -8,9 +8,9 @@ controller_ansible_config_path: "{{ ansible_user_dir }}/.ansible.cfg"
 
 controller_ansible_inventory_path: "{{ ansible_user_dir }}/ansible/hosts.yml"
 
-controller_ansible_project_dir: "{{ ansible_user_dir }}/projects"
+controller_ansible_projects_dir: "{{ ansible_user_dir }}/projects"
 
-controller_venv_helper_script_dir: "{{ ansible_user_dir }}/bin"
+controller_ansible_roles_dir: "{{ ansible_user_dir }}/.ansible/roles"
 
 controller_ansible_current_dirname: current
 

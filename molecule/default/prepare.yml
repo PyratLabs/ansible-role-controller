@@ -15,6 +15,11 @@
         group: user
         state: present
 
+    - name: Ensure prerequisite git packages are installed
+      package:
+        name: git
+        state: present
+
     - name: Ensure prerequisite python3 packages are installed
       package:
         name:

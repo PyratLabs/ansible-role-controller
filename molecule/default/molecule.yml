@@ -15,6 +15,9 @@ provisioner:
   name: ansible
   options:
     verbose: true
+  config_options:
+    defaults:
+      remote_tmp: /tmp/.ansible-${USER}/tmp
   lint:
     name: ansible-lint
   playbooks:

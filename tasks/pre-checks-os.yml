@@ -35,3 +35,16 @@
     msg: python3-venv was not found, please ensure this is installed.
   when: controller_check_python_3_venv_installed.rc > 0
         and not controller_install_os_dependencies
+
+- name: Check that git is installed
+  command: which git
+  register: controller_check_git_installed
+  failed_when: false
+  changed_when: false
+
+- name: Fail play if git is not installed
+  fail:
+    msg: git was not found and is required for roles and projects, please ensure this is installed.
+  when: controller_check_git_installed.rc > 0
+        and controller_ansible_galaxy_roles is defined
+        and not controller_install_os_dependencies

@@ -7,7 +7,16 @@
     controller_ansible_install_dir: /opt/ansible/bin
     controller_ansible_config_path: /etc/ansible/ansible.cfg
     controller_ansible_inventory_path: /etc/ansible/hosts
-    controller_ansible_project_dir: /opt/ansible/projects
+    controller_ansible_projects_dir: /opt/ansible/projects
+    controller_ansible_roles_dir: /opt/ansible/roles
     controller_ansible_current_dirname: current
+    controller_ansible_galaxy_roles:
+      - src: geerlingguy.swap
+      - name: awx
+        src: geerlingguy.awx
+      - name: git
+        src: https://github.com/geerlingguy/ansible-role-git
+        scm: git
+        version: 2.1.0
   roles:
     - role: xanmanning.controller
