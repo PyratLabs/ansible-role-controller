@@ -26,7 +26,6 @@
     version: "{{ controller_ansible_version }}"
     state: present
     virtualenv: "{{ controller_ansible_install_dir }}/ansible-{{ controller_ansible_version }}"
-    virtualenv_site_packages: true
     virtualenv_command: "{{ controller_python3_path }} -m venv"
 
 - name: Ensure the current release is symlinked in the install directory

@@ -70,6 +70,22 @@ Example playbook for installing the latest Ansible version globally:
     - role: xanmanning.controller
 ```
 
+### Activating the Ansible venv
+
+Once logged into the controller, you need to activate the python3 virtual
+environment to be able to access Ansible. This is done as per the below:
+
+```bash
+source {{ controller_ansible_install_dir }}/{{ controller_ansible_current_dirname }}/bin/activate
+```
+
+In the above example global installation playbook, this would look like the
+following:
+
+```bash
+source /opt/ansible/bin/current/bin/activate
+```
+
 ## License
 
 BSD

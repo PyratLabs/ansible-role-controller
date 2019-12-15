@@ -15,10 +15,16 @@
         group: user
         state: present
 
-    - name: Ensure prerequisite packages are installed
+    - name: Ensure prerequisite python3 packages are installed
       package:
         name:
           - python3
           - python3-pip
+        state: present
+
+    - name: Ensure venv package is available when not included in Linux Distribution
+      package:
+        name:
           - python3-venv
         state: present
+      when: ansible_os_family | lower in ['debian']
