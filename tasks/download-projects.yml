@@ -1,0 +1,54 @@
+---
+
+- name: Ensure projects are cloned using git
+  git:
+    repo: "{{ item.repo }}"
+    dest: "{{ controller_ansible_projects_dir }}/{{ item.name | default(item.repo | basename | regex_replace('.git$')) }}"
+    version: "{{ item.version | default('master') }}"
+    force: "{{ item.force | default(omit) }}"
+    key_file: "{{ item.key_file | default(omit) }}"
+    recursive: "{{ item.recursive | default(omit) }}"
+    update: "{{ item.update_repo | default(omit) }}"
+    ssh_opts: "{{ item.ssh_opts | default(omit) }}"
+    bare: "{{ item.bare | default(omit) }}"
+    depth: "{{ item.depth | default(omit) }}"
+  loop: "{{ controller_ansible_projects }}"
+
+- name: Ensure ansible roles for projects are installed
+  block:
+
+    - name: Ensure virtualenv directory path is defined
+      set_fact:
+        controller_venv_path: "{{ controller_ansible_install_dir }}/{{ controller_ansible_current_dirname }}"
+
+    - name: Ensure ansible uses the venv for python
+      set_fact:
+        controller_ansible_python_interpreter: "{{ ansible_python_interpreter | default(omit) }}"
+        ansible_python_interpreter: "{{ controller_venv_path }}/bin/venv"
+
+    - name: Check to see if a requirements.yml file exists for the specified project
+      stat:
+        path: "{{ controller_ansible_projects_dir }}/{{ item.name | default(item.repo |
+          basename | regex_replace('.git$')) }}/requirements.yml"
+      register: controller_check_ansible_project_requirements
+      loop: "{{ controller_ansible_projects }}"
+
+    - name: Ensure ansible roles are installed from project requirements.yml file
+      command: "ansible-galaxy install -f -r {{ item.stat.path }}"
+      args:
+        chdir: "{{ item.stat.path | dirname }}"
+      register: controller_prjreq_cmd
+      changed_when: false
+      failed_when: >
+        ("'NoneType' object has no attribute 'keys'" not in controller_prjreq_cmd.stderr)
+        and controller_prjreq_cmd.rc > 0
+      when: item.stat.exists
+      loop: "{{ controller_check_ansible_project_requirements.results }}"
+
+    - name: Ensure ansible uses original python interpreter
+      set_fact:
+        ansible_python_interpreter: "{{ controller_ansible_python_interpreter }}"
+      when: controller_ansible_python_interpreter is defined
+
+  when: controller_ansible_projects_install_roles is defined
+        and controller_ansible_projects_install_roles

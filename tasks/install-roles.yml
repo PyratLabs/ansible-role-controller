@@ -1,9 +1,13 @@
 ---
 
+- name: Ensure virtualenv directory path is defined
+  set_fact:
+    controller_venv_path: "{{ controller_ansible_install_dir }}/{{ controller_ansible_current_dirname }}"
+
 - name: Ensure ansible uses the venv for python
   set_fact:
     controller_ansible_python_interpreter: "{{ ansible_python_interpreter | default(omit) }}"
-    ansible_python_interpreter: "{{ controller_ansible_install_dir }}/{{ controller_ansible_current_dirname }}/bin/venv"
+    ansible_python_interpreter: "{{ controller_venv_path }}/bin/venv"
 
 - name: Ensure an ansible-galaxy requirements.yml file contains a list of roles
   template:

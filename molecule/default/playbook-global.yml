@@ -18,5 +18,12 @@
         src: https://github.com/geerlingguy/ansible-role-git
         scm: git
         version: 2.1.0
+    controller_ansible_projects:
+      - name: mac-dev-workstation
+        repo: https://github.com/geerlingguy/mac-dev-playbook
+      - repo: git://github.com/geerlingguy/awx-container.git
+        version: 1.0.7
+        update_repo: false
+    controller_ansible_projects_install_roles: true
   roles:
     - role: xanmanning.controller

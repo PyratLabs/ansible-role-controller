@@ -1,19 +1,34 @@
 ---
 
+# Use a specific version of Ansible, eg. `2.9.0`. Specify `false` for latest.
 controller_ansible_version: false
 
+# Installation directory to put Ansible virtual environments.
 controller_ansible_install_dir: "{{ ansible_user_dir }}/ansible"
 
-controller_ansible_config_path: "{{ ansible_user_dir }}/.ansible.cfg"
-
-controller_ansible_inventory_path: "{{ ansible_user_dir }}/ansible/hosts.yml"
-
-controller_ansible_projects_dir: "{{ ansible_user_dir }}/projects"
-
-controller_ansible_roles_dir: "{{ ansible_user_dir }}/.ansible/roles"
-
+# Name for the currently active Ansible Virtualenv.
 controller_ansible_current_dirname: current
 
+# Path to the default ansible.cfg file to use.
+controller_ansible_config_path: "{{ ansible_user_dir }}/.ansible.cfg"
+
+# Path to the default ansible inventory file.
+controller_ansible_inventory_path: "{{ ansible_user_dir }}/ansible/hosts.yml"
+
+# Directory to put Ansible projects.
+controller_ansible_projects_dir: "{{ ansible_user_dir }}/projects"
+
+# Directory to install Ansible Galaxy roles to.
+controller_ansible_roles_dir: "{{ ansible_user_dir }}/.ansible/roles"
+
+# Allow role to install OS dependencies.
 controller_install_os_dependencies: false
 
+# List of Ansible roles to be installed with `ansible-galaxy`. See notes in README.md
 # controller_ansible_galaxy_roles: []
+
+# List of Ansible projects to be cloned with `git`. See notes in README.md
+# controller_ansible_projects: []
+
+# Install Ansible roles defined in project requirements.yml file.
+controller_ansible_projects_install_roles: false

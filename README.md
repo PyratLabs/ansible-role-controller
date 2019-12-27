@@ -28,18 +28,20 @@ my spare time so I cannot promise a speedy fix delivery.
 ## Role Variables
 
 
-| Variable                             | Description                                                                 | Default Value             |
-|--------------------------------------|-----------------------------------------------------------------------------|---------------------------|
-| `controller_ansible_version`         | Use a specific version of Ansible, eg. `2.9.0`. Specify `false` for latest. | `false`                   |
-| `controller_ansible_install_dir`     | Installation directory to put Ansible virtual environments.                 | `$HOME/ansible`           |
-| `controller_ansible_config_path`     | Path to the default ansible.cfg file to use.                                | `$HOME/.ansible.cfg`      |
-| `controller_ansible_inventory_path`  | Path to the default ansible inventory file.                                 | `$HOME/ansible/hosts.yml` |
-| `controller_ansible_projects_dir`    | Directory to put Ansible projects.                                          | `$HOME/projects`          |
-| `controller_ansible_roles_dir`       | Directory to install Ansible Galaxy roles to.                               | `$HOME/.ansible/roles`    |
-| `controller_ansible_current_dirname` | Name for the currently active Ansible Virtualenv.                           | current                   |
-| `controller_install_os_dependencies` | Allow role to install OS dependencies.                                      | `false`                   |
-| `controller_python3_path`            | Specify a path to a specific python version to use in virtualenv.           | _NULL_                    |
-| `controller_ansible_galaxy_roles`    | List of Ansible roles to be installed with `ansible-galaxy`. See notes.     | _NULL_                    |
+| Variable                                    | Description                                                                 | Default Value             |
+|---------------------------------------------|-----------------------------------------------------------------------------|---------------------------|
+| `controller_ansible_version`                | Use a specific version of Ansible, eg. `2.9.0`. Specify `false` for latest. | `false`                   |
+| `controller_ansible_install_dir`            | Installation directory to put Ansible virtual environments.                 | `$HOME/ansible`           |
+| `controller_ansible_current_dirname`        | Name for the currently active Ansible Virtualenv.                           | current                   |
+| `controller_ansible_config_path`            | Path to the default ansible.cfg file to use.                                | `$HOME/.ansible.cfg`      |
+| `controller_ansible_inventory_path`         | Path to the default ansible inventory file.                                 | `$HOME/ansible/hosts.yml` |
+| `controller_ansible_projects_dir`           | Directory to put Ansible projects.                                          | `$HOME/projects`          |
+| `controller_ansible_roles_dir`              | Directory to install Ansible Galaxy roles to.                               | `$HOME/.ansible/roles`    |
+| `controller_install_os_dependencies`        | Allow role to install OS dependencies.                                      | `false`                   |
+| `controller_python3_path`                   | Specify a path to a specific python version to use in virtualenv.           | _NULL_                    |
+| `controller_ansible_galaxy_roles`           | List of Ansible roles to be installed with `ansible-galaxy`. See notes.     | _NULL_                    |
+| `controller_ansible_projects`               | List of Ansible projects to be cloned with `git`. See notes.                | _NULL_                    |
+| `controller_ansible_projects_install_roles` | Install Ansible roles defined in project requirements.yml file. (boolean)   | `false`                    |
 
 ## Dependencies
 
@@ -115,6 +117,24 @@ controller_ansible_galaxy_roles:
     src: https://github.com/geerlingguy/ansible-role-jenkins
     scm: git
     version: 3.8.1
+```
+
+### Note about `controller_ansible_projects`
+
+This is a list of git repositories to be cloned into the projects directory.
+If this is empty, no projects will be cloned.
+
+Below is an example of a project:
+
+```yaml
+controller_ansible_projects:
+    - name: mac-dev-workstation                           # Directory name to clone into
+      repo: git@github.com:geerlingguy/mac-dev-playbook   # Repository to clone
+      update_repo: true                                   # Always update local copy of repo
+      version:  master                                    # Check out this version of the repo
+      force: false                                        # Discard any existing working copy of the repo
+      key_file: "{{ ansible_user_id }}/.ssh/id_rsa"       # Key file to use to clone the repo
+      recursive: true                                     # Include submodules in clone
 ```
 
 ## License

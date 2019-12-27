@@ -14,6 +14,10 @@
 
 - import_tasks: install-roles.yml
   when: controller_ansible_galaxy_roles is defined
-        and controller_ansible_galaxy_roles | length > 1
+        and controller_ansible_galaxy_roles | length >= 1
+
+- import_tasks: download-projects.yml
+  when: controller_ansible_projects is defined
+        and controller_ansible_projects | length >= 1
 
 - import_tasks: post-checks-environment.yml
