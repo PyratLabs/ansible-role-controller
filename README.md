@@ -133,7 +133,7 @@ controller_ansible_projects:
       update_repo: true                                   # Always update local copy of repo
       version:  master                                    # Check out this version of the repo
       force: false                                        # Discard any existing working copy of the repo
-      key_file: "{{ ansible_user_id }}/.ssh/id_rsa"       # Key file to use to clone the repo
+      key_file: "{{ ansible_user_dir }}/.ssh/id_rsa"      # Key file to use to clone the repo
       recursive: true                                     # Include submodules in clone
 ```
 
