@@ -2,7 +2,7 @@
 galaxy_info:
   role_name: controller
   author: Xan Manning
-  description: Role to configure an Ansible Controller
+  description: Ansible Role to configure a system to be an Ansible Controller
   company: Pyrat Ltd.
 
   # If the issue tracker for your role is not on github, uncomment the
