@@ -8,6 +8,10 @@
 
 - import_tasks: pre-checks-environment.yml
 
+- import_tasks: get-version.yml
+  when: controller_ansible_version is not defined
+        or not controller_ansible_version
+
 - import_tasks: install-ansible.yml
 
 - import_tasks: configure-ansible.yml

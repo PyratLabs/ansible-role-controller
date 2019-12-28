@@ -5,21 +5,6 @@
     path: "{{ controller_ansible_install_dir }}"
     state: directory
 
-- name: Get the version information of the latest release of Ansible
-  uri:
-    url: https://pypi.org/pypi/ansible/json
-    return_content: true
-    body_format: json
-  register: controller_get_latest_ansible_version
-  when: controller_ansible_version is not defined
-        or not controller_ansible_version
-
-- name: Ensure the controller_ansible_version variable is set
-  set_fact:
-    controller_ansible_version: "{{ controller_get_latest_ansible_version.json.info.version }}"
-  when: controller_ansible_version is not defined
-        or not controller_ansible_version
-
 - name: Ensure Ansible is installed in a virtual environment
   pip:
     name: ansible
