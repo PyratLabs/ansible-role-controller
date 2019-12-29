@@ -4,16 +4,16 @@
 controller_ansible_version: false
 
 # Installation directory to put Ansible virtual environments.
-controller_ansible_install_dir: "{{ ansible_user_dir }}/ansible"
+controller_ansible_install_dir: "{{ ansible_user_dir }}/.virtualenvs"
 
 # Name for the currently active Ansible Virtualenv.
-controller_ansible_current_dirname: current
+controller_ansible_current_dirname: ansible
 
 # Path to the default ansible.cfg file to use.
 controller_ansible_config_path: "{{ ansible_user_dir }}/.ansible.cfg"
 
 # Path to the default ansible inventory file.
-controller_ansible_inventory_path: "{{ ansible_user_dir }}/ansible/hosts.yml"
+controller_ansible_inventory_path: "{{ ansible_user_dir }}/.ansible/hosts.yml"
 
 # Directory to put Ansible projects.
 controller_ansible_projects_dir: "{{ ansible_user_dir }}/projects"

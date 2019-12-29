@@ -28,19 +28,19 @@ my spare time so I cannot promise a speedy fix delivery.
 ## Role Variables
 
 
-| Variable                                    | Description                                                                 | Default Value             |
-|---------------------------------------------|-----------------------------------------------------------------------------|---------------------------|
-| `controller_ansible_version`                | Use a specific version of Ansible, eg. `2.9.0`. Specify `false` for latest. | `false`                   |
-| `controller_ansible_install_dir`            | Installation directory to put Ansible virtual environments.                 | `$HOME/ansible`           |
-| `controller_ansible_current_dirname`        | Name for the currently active Ansible Virtualenv.                           | current                   |
-| `controller_ansible_config_path`            | Path to the default ansible.cfg file to use.                                | `$HOME/.ansible.cfg`      |
-| `controller_ansible_inventory_path`         | Path to the default ansible inventory file.                                 | `$HOME/ansible/hosts.yml` |
-| `controller_ansible_projects_dir`           | Directory to put Ansible projects.                                          | `$HOME/projects`          |
-| `controller_ansible_roles_dir`              | Directory to install Ansible Galaxy roles to.                               | `$HOME/.ansible/roles`    |
-| `controller_install_os_dependencies`        | Allow role to install OS dependencies.                                      | `false`                   |
-| `controller_python3_path`                   | Specify a path to a specific python version to use in virtualenv.           | _NULL_                    |
-| `controller_ansible_galaxy_roles`           | List of Ansible roles to be installed with `ansible-galaxy`. See notes.     | _NULL_                    |
-| `controller_ansible_projects`               | List of Ansible projects to be cloned with `git`. See notes.                | _NULL_                    |
+| Variable                                    | Description                                                                 | Default Value              |
+|---------------------------------------------|-----------------------------------------------------------------------------|----------------------------|
+| `controller_ansible_version`                | Use a specific version of Ansible, eg. `2.9.0`. Specify `false` for latest. | `false`                    |
+| `controller_ansible_install_dir`            | Installation directory to put Ansible virtual environments.                 | `$HOME/.virtualenvs`       |
+| `controller_ansible_current_dirname`        | Name for the currently active Ansible Virtualenv.                           | ansible                    |
+| `controller_ansible_config_path`            | Path to the default ansible.cfg file to use.                                | `$HOME/.ansible.cfg`       |
+| `controller_ansible_inventory_path`         | Path to the default ansible inventory file.                                 | `$HOME/.ansible/hosts.yml` |
+| `controller_ansible_projects_dir`           | Directory to put Ansible projects.                                          | `$HOME/projects`           |
+| `controller_ansible_roles_dir`              | Directory to install Ansible Galaxy roles to.                               | `$HOME/.ansible/roles`     |
+| `controller_install_os_dependencies`        | Allow role to install OS dependencies.                                      | `false`                    |
+| `controller_python3_path`                   | Specify a path to a specific python version to use in virtualenv.           | _NULL_                     |
+| `controller_ansible_galaxy_roles`           | List of Ansible roles to be installed with `ansible-galaxy`. See notes.     | _NULL_                     |
+| `controller_ansible_projects`               | List of Ansible projects to be cloned with `git`. See notes.                | _NULL_                     |
 | `controller_ansible_projects_install_roles` | Install Ansible roles defined in project requirements.yml file. (boolean)   | `false`                    |
 
 ## Dependencies
