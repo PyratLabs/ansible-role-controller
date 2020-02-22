@@ -4,6 +4,11 @@
   hosts: all
   become: true
   tasks:
+    - name: Ensure apt cache is updated
+      apt:
+        update_cache: true
+      when: ansible_pkg_mgr == 'apt'
+
     - name: Ensure prerequisite git packages are installed
       package:
         name: git

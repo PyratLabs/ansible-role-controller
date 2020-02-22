@@ -40,7 +40,8 @@
       register: controller_prjreq_cmd
       changed_when: false
       failed_when: >
-        ("'NoneType' object has no attribute 'keys'" not in controller_prjreq_cmd.stderr)
+        ("'NoneType' object has no attribute 'keys'" not in controller_prjreq_cmd.stderr
+        and "ERROR! No requirements found in file" not in controller_prjreq_cmd.stderr)
         and controller_prjreq_cmd.rc > 0
       when: item.stat.exists
       loop: "{{ controller_check_ansible_project_requirements.results }}"
