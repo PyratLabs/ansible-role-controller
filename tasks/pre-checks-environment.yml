@@ -10,4 +10,5 @@
 - name: Ensure the path to Python 3 is set as a fact
   set_fact:
     controller_python3_path: "{{ controller_check_python_3_path.stdout }}"
+    controller_ansible_python_interpreter: "{{ ansible_python_interpreter | default(omit) }}"
   when: controller_python3_path is not defined

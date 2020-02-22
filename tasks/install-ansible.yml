@@ -5,6 +5,10 @@
     path: "{{ controller_ansible_install_dir }}"
     state: directory
 
+- name: Ensure Python 3 interpreter is used by Ansible
+  set_fact:
+    ansible_python_interpreter: "{{ controller_python3_path }}"
+
 - name: Ensure Ansible is installed in a virtual environment
   pip:
     name: ansible
@@ -12,6 +16,11 @@
     state: present
     virtualenv: "{{ controller_ansible_install_dir }}/ansible-{{ controller_ansible_version }}"
     virtualenv_command: "{{ controller_python3_path }} -m venv"
+
+- name: Ensure the originally configured Python interpreter is used by Ansible
+  set_fact:
+    ansible_python_interpreter: "{{ controller_ansible_python_interpreter }}"
+  when: controller_ansible_python_interpreter is defined
 
 - name: Ensure the current release is symlinked in the install directory
   file:
