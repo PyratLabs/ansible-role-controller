@@ -5,6 +5,13 @@
     path: "{{ controller_ansible_install_dir }}"
     state: directory
 
+- name: Ensure the Ansible bin directory exists
+  file:
+    path: "{{ controller_ansible_bin_dir }}"
+    state: directory
+  when: controller_ansible_install_venv_helper is defined
+        and controller_ansible_install_venv_helper
+
 - name: Ensure Python 3 interpreter is used by Ansible
   set_fact:
     ansible_python_interpreter: "{{ controller_python3_path }}"
@@ -41,6 +48,17 @@
     src: venv.sh.j2
     dest: "{{ controller_ansible_install_dir }}/ansible-{{ controller_ansible_version }}/bin/venv"
     mode: 0755
+  loop:
+    - python
+
+- name: Ensure venv helper exists for ansible in bin directory
+  template:
+    src: venv.sh.j2
+    dest: "{{ controller_ansible_bin_dir }}/{{ item }}"
+    mode: 0755
+  loop: "{{ controller_ansible_command_list }}"
+  when: controller_ansible_install_venv_helper is defined
+        and controller_ansible_install_venv_helper
 
 - name: Ensure Ansible configuration directory exists
   file:

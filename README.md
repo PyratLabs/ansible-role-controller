@@ -33,6 +33,8 @@ my spare time so I cannot promise a speedy fix delivery.
 | `controller_ansible_version`                | Use a specific version of Ansible, eg. `2.9.0`. Specify `false` for latest. | `false`                    |
 | `controller_ansible_install_dir`            | Installation directory to put Ansible virtual environments.                 | `$HOME/.virtualenvs`       |
 | `controller_ansible_current_dirname`        | Name for the currently active Ansible Virtualenv.                           | ansible                    |
+| `controller_ansible_install_venv_helper`    | Install a venv helper to launch venv executables from a "bin" directory.    | `true`                     |
+| `controller_ansible_bin_dir`                | "bin" directory to install symlinks to.                                     | `$HOME/bin`                |
 | `controller_ansible_config_path`            | Path to the default ansible.cfg file to use.                                | `$HOME/.ansible.cfg`       |
 | `controller_ansible_inventory_path`         | Path to the default ansible inventory file.                                 | `$HOME/.ansible/hosts.yml` |
 | `controller_ansible_projects_dir`           | Directory to put Ansible projects.                                          | `$HOME/projects`           |

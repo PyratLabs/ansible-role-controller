@@ -2,4 +2,6 @@
 
 source "{{ controller_ansible_install_dir }}/{{ controller_ansible_current_dirname }}/bin/activate"
 
-{{ controller_ansible_install_dir }}/{{ controller_ansible_current_dirname }}/bin/python $@
+{{ controller_ansible_install_dir }}/{{ controller_ansible_current_dirname }}/bin/{{ item }} $@
+
+deactivate
