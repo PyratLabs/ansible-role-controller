@@ -17,6 +17,14 @@
     virtualenv: "{{ controller_ansible_install_dir }}/ansible-{{ controller_ansible_version }}"
     virtualenv_command: "{{ controller_python3_path }} -m venv"
 
+- name: Ensure selinux bindings are installed in a virtual environment
+  pip:
+    name: selinux
+    state: present
+    virtualenv: "{{ controller_ansible_install_dir }}/ansible-{{ controller_ansible_version }}"
+    virtualenv_command: "{{ controller_python3_path }} -m venv"
+  when: ansible_selinux is defined and ansible_selinux.status == "enabled"
+
 - name: Ensure the originally configured Python interpreter is used by Ansible
   set_fact:
     ansible_python_interpreter: "{{ controller_ansible_python_interpreter }}"
