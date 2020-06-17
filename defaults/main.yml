@@ -6,14 +6,14 @@ controller_ansible_version: false
 # Installation directory to put Ansible virtual environments.
 controller_ansible_install_dir: "{{ ansible_user_dir }}/.virtualenvs"
 
+# Name for the currently active Ansible Virtualenv.
+controller_ansible_current_dirname: ansible
+
 # Install a venv helper to launch virtualenv executables from a "bin" directory
 controller_ansible_install_venv_helper: true
 
-# "bin" directory for symlink installation
+# "bin" directory for venv helper installation
 controller_ansible_bin_dir: "{{ ansible_user_dir }}/bin"
-
-# Name for the currently active Ansible Virtualenv.
-controller_ansible_current_dirname: ansible
 
 # Path to the default ansible.cfg file to use.
 controller_ansible_config_path: "{{ ansible_user_dir }}/.ansible.cfg"

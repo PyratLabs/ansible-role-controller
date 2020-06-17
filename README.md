@@ -34,7 +34,7 @@ my spare time so I cannot promise a speedy fix delivery.
 | `controller_ansible_install_dir`            | Installation directory to put Ansible virtual environments.                 | `$HOME/.virtualenvs`       |
 | `controller_ansible_current_dirname`        | Name for the currently active Ansible Virtualenv.                           | ansible                    |
 | `controller_ansible_install_venv_helper`    | Install a venv helper to launch venv executables from a "bin" directory.    | `true`                     |
-| `controller_ansible_bin_dir`                | "bin" directory to install symlinks to.                                     | `$HOME/bin`                |
+| `controller_ansible_bin_dir`                | "bin" directory to install venv-helpers to.                                 | `$HOME/bin`                |
 | `controller_ansible_config_path`            | Path to the default ansible.cfg file to use.                                | `$HOME/.ansible.cfg`       |
 | `controller_ansible_inventory_path`         | Path to the default ansible inventory file.                                 | `$HOME/.ansible/hosts.yml` |
 | `controller_ansible_projects_dir`           | Directory to put Ansible projects.                                          | `$HOME/projects`           |
@@ -72,6 +72,7 @@ Example playbook for installing the latest Ansible version globally:
     controller_ansible_inventory_path: /etc/ansible/hosts
     controller_ansible_projects_dir: /opt/ansible/projects
     controller_ansible_roles_dir: /opt/ansible/roles
+    controller_ansible_bin_dir: /usr/bin
     controller_ansible_current_dirname: current
     controller_ansible_galaxy_roles:
       - name: controller
