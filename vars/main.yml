@@ -13,3 +13,5 @@ controller_ansible_command_list:
   - ansible-galaxy
   - ansible-lint
   - ansible-pull
+
+controller_ansible_tmp_requirements_path: "/tmp/controller-requirements.yml"

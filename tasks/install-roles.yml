@@ -12,10 +12,10 @@
 - name: Ensure an ansible-galaxy requirements.yml file contains a list of roles
   template:
     src: requirements.yml.j2
-    dest: "/tmp/controller-requirements.yml"
+    dest: "{{ controller_ansible_tmp_requirements_path }}"
 
 - name: Ensure ansible roles are installed using ansible-galaxy
-  command: "ansible-galaxy install -f -r /tmp/controller-requirements.yml"
+  command: "ansible-galaxy install -f -r {{ controller_ansible_tmp_requirements_path }}"
   changed_when: false
 
 - name: Ensure ansible uses original python interpreter
