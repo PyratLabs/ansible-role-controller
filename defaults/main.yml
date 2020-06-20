@@ -9,6 +9,9 @@ controller_ansible_install_dir: "{{ ansible_user_dir }}/.virtualenvs"
 # Name for the currently active Ansible Virtualenv.
 controller_ansible_current_dirname: ansible
 
+# Allow venv to inherit packages from global site-packages
+controller_ansible_venv_site_packages: false
+
 # Install a venv helper to launch virtualenv executables from a "bin" directory
 controller_ansible_install_venv_helper: true
 

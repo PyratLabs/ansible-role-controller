@@ -23,6 +23,7 @@
     state: present
     virtualenv: "{{ controller_ansible_install_dir }}/ansible-{{ controller_ansible_version }}"
     virtualenv_command: "{{ controller_python3_path }} -m venv"
+    virtualenv_site_packages: "{{ controller_ansible_venv_site_packages | default(False) }}"
 
 - name: Ensure selinux bindings are installed in a virtual environment
   pip:
