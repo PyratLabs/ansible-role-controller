@@ -2,34 +2,38 @@
 
 - name: Check to see if the Ansible version directory exists
   stat:
-    path: "{{ controller_ansible_install_dir }}/ansible-{{ controller_ansible_version }}"
+    path: "{{ controller_ansible_install_dir }}/{{ controller_ansible_venv_name }}-{{ controller_ansible_venv_suffix }}"
   register: controller_check_ansible_version_dir
 
 - name: Fail if the Ansible version directory doesn't exist
   fail:
-    msg: "{{ controller_ansible_install_dir }}/ansible-{{ controller_ansible_version }} is missing after play."
+    msg: "{{ controller_ansible_install_dir }}/{{ controller_ansible_venv_name }}-{{ controller_ansible_venv_suffix }} is missing after play."
   when: not controller_check_ansible_version_dir.stat.exists
+
+- name: Ensure venv target variable is set
+  set_fact:
+    controller_ansible_venv_target: "{{ controller_ansible_install_dir }}/{{ controller_ansible_venv_name }}-{{ controller_ansible_venv_suffix }}"
 
 - name: Check to see if the Ansible current symlink exists
   stat:
-    path: "{{ controller_ansible_install_dir }}/{{ controller_ansible_current_dirname }}"
+    path: "{{ controller_ansible_install_dir }}/{{ controller_ansible_venv_name }}"
   register: controller_check_ansible_symlink_dir
 
 - name: Fail if the Ansible symlink directory doesn't exist
   fail:
-    msg: "{{ controller_ansible_install_dir }}/{{ controller_ansible_current_dirname }} symlink not correct after play."
+    msg: "{{ controller_ansible_install_dir }}/{{ controller_ansible_venv_name }} symlink not correct after play."
   when: not controller_check_ansible_symlink_dir.stat.exists
         or not controller_check_ansible_symlink_dir.stat.islnk
-        or controller_check_ansible_symlink_dir.stat.lnk_target != (controller_ansible_install_dir + "/ansible-" + controller_ansible_version)
+        or controller_check_ansible_symlink_dir.stat.lnk_target != (controller_ansible_venv_target)
 
 - name: Check to see if the Ansible version directory is a virtualenv
   stat:
-    path: "{{ controller_ansible_install_dir }}/{{ controller_ansible_current_dirname }}/bin/activate"
+    path: "{{ controller_ansible_install_dir }}/{{ controller_ansible_venv_name }}/bin/activate"
   register: controller_check_ansible_virtualenv_dir
 
 - name: Fail if the Ansible virtualenv directory doesn't exist
   fail:
-    msg: "{{ controller_ansible_install_dir }}/{{ controller_ansible_current_dirname }}/bin/activate not found after play."
+    msg: "{{ controller_ansible_install_dir }}/{{ controller_ansible_venv_name }}/bin/activate not found after play."
   when: not controller_check_ansible_virtualenv_dir.stat.exists
         or not controller_check_ansible_virtualenv_dir.stat.isreg
 

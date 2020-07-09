@@ -19,22 +19,22 @@ env:
 
     # Global install
     - MOLECULE_DISTRO: centos7
-      MOLECULE_PREPARE_PLAYBOOOK: prepare-global.yml
+      MOLECULE_PREPARE_PLAYBOOK: prepare-global.yml
       MOLECULE_PLAYBOOK: playbook-global.yml
     - MOLECULE_DISTRO: centos8
-      MOLECULE_PREPARE_PLAYBOOOK: prepare-global.yml
+      MOLECULE_PREPARE_PLAYBOOK: prepare-global.yml
       MOLECULE_PLAYBOOK: playbook-global.yml
     - MOLECULE_DISTRO: debian10
-      MOLECULE_PREPARE_PLAYBOOOK: prepare-global.yml
+      MOLECULE_PREPARE_PLAYBOOK: prepare-global.yml
       MOLECULE_PLAYBOOK: playbook-global.yml
     - MOLECULE_DISTRO: ubuntu1804
-      MOLECULE_PREPARE_PLAYBOOOK: prepare-global.yml
+      MOLECULE_PREPARE_PLAYBOOK: prepare-global.yml
       MOLECULE_PLAYBOOK: playbook-global.yml
     - MOLECULE_DISTRO: fedora29
-      MOLECULE_PREPARE_PLAYBOOOK: prepare-global.yml
+      MOLECULE_PREPARE_PLAYBOOK: prepare-global.yml
       MOLECULE_PLAYBOOK: playbook-global.yml
     - MOLECULE_DISTRO: amazonlinux2
-      MOLECULE_PREPARE_PLAYBOOOK: prepare-global.yml
+      MOLECULE_PREPARE_PLAYBOOK: prepare-global.yml
       MOLECULE_PLAYBOOK: playbook-global.yml
 install:
   # Install test dependencies.

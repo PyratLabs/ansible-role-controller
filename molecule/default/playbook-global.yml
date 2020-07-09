@@ -10,7 +10,9 @@
     controller_ansible_projects_dir: /opt/ansible/projects
     controller_ansible_roles_dir: /opt/ansible/roles
     controller_ansible_bin_dir: /usr/bin
-    controller_ansible_current_dirname: current
+    controller_ansible_venv_name: current
+    controller_ansible_support_packages:
+      - azure
     controller_ansible_galaxy_roles:
       - src: geerlingguy.swap
       - name: awx

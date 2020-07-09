@@ -2,7 +2,7 @@
 
 - name: Ensure virtualenv directory path is defined
   set_fact:
-    controller_venv_path: "{{ controller_ansible_install_dir }}/{{ controller_ansible_current_dirname }}"
+    controller_venv_path: "{{ controller_ansible_install_dir }}/{{ controller_ansible_venv_name }}"
 
 - name: Ensure ansible uses the venv for python
   set_fact:

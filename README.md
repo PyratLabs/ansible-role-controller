@@ -28,23 +28,25 @@ my spare time so I cannot promise a speedy fix delivery.
 ## Role Variables
 
 
-| Variable                                    | Description                                                                 | Default Value              |
-|---------------------------------------------|-----------------------------------------------------------------------------|----------------------------|
-| `controller_ansible_version`                | Use a specific version of Ansible, eg. `2.9.0`. Specify `false` for latest. | `false`                    |
-| `controller_ansible_install_dir`            | Installation directory to put Ansible virtual environments.                 | `$HOME/.virtualenvs`       |
-| `controller_ansible_current_dirname`        | Name for the currently active Ansible Virtualenv.                           | ansible                    |
-| `controller_ansible_venv_site_packages`     | Allow venv to inherit packages from global site-packages.                   | `false`                    |
-| `controller_ansible_install_venv_helper`    | Install a venv helper to launch venv executables from a "bin" directory.    | `true`                     |
-| `controller_ansible_bin_dir`                | "bin" directory to install venv-helpers to.                                 | `$HOME/bin`                |
-| `controller_ansible_config_path`            | Path to the default ansible.cfg file to use.                                | `$HOME/.ansible.cfg`       |
-| `controller_ansible_inventory_path`         | Path to the default ansible inventory file.                                 | `$HOME/.ansible/hosts.yml` |
-| `controller_ansible_projects_dir`           | Directory to put Ansible projects.                                          | `$HOME/projects`           |
-| `controller_ansible_roles_dir`              | Directory to install Ansible Galaxy roles to.                               | `$HOME/.ansible/roles`     |
-| `controller_install_os_dependencies`        | Allow role to install OS dependencies.                                      | `false`                    |
-| `controller_python3_path`                   | Specify a path to a specific python version to use in virtualenv.           | _NULL_                     |
-| `controller_ansible_galaxy_roles`           | List of Ansible roles to be installed with `ansible-galaxy`. See notes.     | _NULL_                     |
-| `controller_ansible_projects`               | List of Ansible projects to be cloned with `git`. See notes.                | _NULL_                     |
-| `controller_ansible_projects_install_roles` | Install Ansible roles defined in project requirements.yml file. (boolean)   | `false`                    |
+| Variable                                    | Description                                                                 | Default Value               |
+|---------------------------------------------|-----------------------------------------------------------------------------|-----------------------------|
+| `controller_ansible_version`                | Use a specific version of Ansible, eg. `2.9.0`. Specify `false` for latest. | `false`                     |
+| `controller_ansible_support_packages`       | Install molecule support packages (eg. Azure)                               | []                          |
+| `controller_ansible_install_dir`            | Installation directory to put Ansible virtual environments.                 | `$HOME/.virtualenvs`        |
+| `controller_ansible_venv_name`              | Name for the Ansible Virtualenv.                                            | ansible                     |
+| `controller_ansible_venv_suffix`            | Add a custom suffix to virtualenv.                                          | `controller_ansible_version`|
+| `controller_ansible_venv_site_packages`     | Allow venv to inherit packages from global site-packages.                   | `false`                     |
+| `controller_ansible_install_venv_helper`    | Install a venv helper to launch venv executables from a "bin" directory.    | `true`                      |
+| `controller_ansible_bin_dir`                | "bin" directory to install venv-helpers to.                                 | `$HOME/bin`                 |
+| `controller_ansible_config_path`            | Path to the default ansible.cfg file to use.                                | `$HOME/.ansible.cfg`        |
+| `controller_ansible_inventory_path`         | Path to the default ansible inventory file.                                 | `$HOME/.ansible/hosts.yml`  |
+| `controller_ansible_projects_dir`           | Directory to put Ansible projects.                                          | `$HOME/projects`            |
+| `controller_ansible_roles_dir`              | Directory to install Ansible Galaxy roles to.                               | `$HOME/.ansible/roles`      |
+| `controller_install_os_dependencies`        | Allow role to install OS dependencies.                                      | `false`                     |
+| `controller_python3_path`                   | Specify a path to a specific python version to use in virtualenv.           | _NULL_                      |
+| `controller_ansible_galaxy_roles`           | List of Ansible roles to be installed with `ansible-galaxy`. See notes.     | _NULL_                      |
+| `controller_ansible_projects`               | List of Ansible projects to be cloned with `git`. See notes.                | _NULL_                      |
+| `controller_ansible_projects_install_roles` | Install Ansible roles defined in project requirements.yml file. (boolean)   | `false`                     |
 
 ## Dependencies
 
@@ -74,7 +76,9 @@ Example playbook for installing the latest Ansible version globally:
     controller_ansible_projects_dir: /opt/ansible/projects
     controller_ansible_roles_dir: /opt/ansible/roles
     controller_ansible_bin_dir: /usr/bin
-    controller_ansible_current_dirname: current
+    controller_ansible_venv_name: current
+    controller_ansible_support_packages:
+      - azure
     controller_ansible_galaxy_roles:
       - name: controller
         src: xanmanning.controller
@@ -92,7 +96,7 @@ Once logged into the controller, you need to activate the python3 virtual
 environment to be able to access Ansible. This is done as per the below:
 
 ```bash
-source {{ controller_ansible_install_dir }}/{{ controller_ansible_current_dirname }}/bin/activate
+source {{ controller_ansible_install_dir }}/{{ controller_ansible_venv_name }}/bin/activate
 ```
 
 In the above example global installation playbook, this would look like the

@@ -1,5 +1,11 @@
 ---
 
+- name: Ensure the venv suffix is set
+  set_fact:
+    controller_ansible_venv_suffix: "{{ controller_ansible_version }}"
+  when: controller_ansible_venv_suffix is not defined
+        or not controller_ansible_venv_suffix
+
 - name: Ensure the Ansible install directory exists
   file:
     path: "{{ controller_ansible_install_dir }}"
@@ -21,7 +27,7 @@
     name: ansible
     version: "{{ controller_ansible_version }}"
     state: present
-    virtualenv: "{{ controller_ansible_install_dir }}/ansible-{{ controller_ansible_version }}"
+    virtualenv: "{{ controller_ansible_install_dir }}/{{ controller_ansible_venv_name }}-{{ controller_ansible_venv_suffix }}"
     virtualenv_command: "{{ controller_python3_path }} -m venv"
     virtualenv_site_packages: "{{ controller_ansible_venv_site_packages | default(False) }}"
 
@@ -29,9 +35,21 @@
   pip:
     name: selinux
     state: present
-    virtualenv: "{{ controller_ansible_install_dir }}/ansible-{{ controller_ansible_version }}"
+    virtualenv: "{{ controller_ansible_install_dir }}/{{ controller_ansible_venv_name }}-{{ controller_ansible_venv_suffix }}"
     virtualenv_command: "{{ controller_python3_path }} -m venv"
   when: ansible_selinux is defined and ansible_selinux.status == "enabled"
+
+- name: Ensure Ansible support packages are installed in a virtual environment
+  pip:
+    name: "ansible[{{ item }}]"
+    version: "{{ controller_ansible_version }}"
+    state: present
+    virtualenv: "{{ controller_ansible_install_dir }}/{{ controller_ansible_venv_name }}-{{ controller_ansible_venv_suffix }}"
+    virtualenv_command: "{{ controller_python3_path }} -m venv"
+    virtualenv_site_packages: "{{ controller_ansible_venv_site_packages | default(False) }}"
+  loop: "{{ controller_ansible_support_packages }}"
+  when: controller_ansible_support_packages is defined
+        and controller_ansible_support_packages | length > 0
 
 - name: Ensure the originally configured Python interpreter is used by Ansible
   set_fact:
@@ -40,14 +58,14 @@
 
 - name: Ensure the current release is symlinked in the install directory
   file:
-    src: "{{ controller_ansible_install_dir }}/ansible-{{ controller_ansible_version }}"
-    dest: "{{ controller_ansible_install_dir }}/{{ controller_ansible_current_dirname }}"
+    src: "{{ controller_ansible_install_dir }}/{{ controller_ansible_venv_name }}-{{ controller_ansible_venv_suffix }}"
+    dest: "{{ controller_ansible_install_dir }}/{{ controller_ansible_venv_name }}"
     state: link
 
 - name: Ensure venv wrapper exists in virtualenv bin directory
   template:
     src: venv.sh.j2
-    dest: "{{ controller_ansible_install_dir }}/ansible-{{ controller_ansible_version }}/bin/venv"
+    dest: "{{ controller_ansible_install_dir }}/{{ controller_ansible_venv_name }}-{{ controller_ansible_venv_suffix }}/bin/venv"
     mode: 0755
   loop:
     - python

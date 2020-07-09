@@ -3,11 +3,19 @@
 # Use a specific version of Ansible, eg. `2.9.0`. Specify `false` for latest.
 controller_ansible_version: false
 
+# Install Ansible support packages (list), eg. azure
+controller_ansible_support_packages: []
+# controller_ansible_support_packages:
+#   - azure
+
 # Installation directory to put Ansible virtual environments.
 controller_ansible_install_dir: "{{ ansible_user_dir }}/.virtualenvs"
 
-# Name for the currently active Ansible Virtualenv.
-controller_ansible_current_dirname: ansible
+# Name for the Ansible Virtualenv.
+controller_ansible_venv_name: ansible
+
+# Add a custom suffix to virtualenv (default: controller_ansible_version)
+controller_ansible_venv_suffix: false
 
 # Allow venv to inherit packages from global site-packages
 controller_ansible_venv_site_packages: false

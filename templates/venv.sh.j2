@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-source "{{ controller_ansible_install_dir }}/{{ controller_ansible_current_dirname }}/bin/activate"
+source "{{ controller_ansible_install_dir }}/{{ controller_ansible_venv_name }}/bin/activate"
 
-{{ controller_ansible_install_dir }}/{{ controller_ansible_current_dirname }}/bin/{{ item }} $@
+{{ controller_ansible_install_dir }}/{{ controller_ansible_venv_name }}/bin/{{ item }} $@
 
 deactivate
