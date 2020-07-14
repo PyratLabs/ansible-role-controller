@@ -8,11 +8,11 @@ if [ "${__ANSIBLE}" != "" ] ; then echo "Ansible already installed, exiting." ; 
 if [ "${__PY3}" == "" ] ; then echo "Python 3 not found, please install." ; exit ; fi
 if [ "${__PIP3}" == "" ] ; then echo "pip3 not found, please install." ; exit ; fi
 
-test -d /tmp/ve-ansible || python3 -m venv /tmp/ve-ansible
+test -d /tmp/ve-ansible || python3 -m venv --system-site-packages /tmp/ve-ansible
 
 source /tmp/ve-ansible/bin/activate
 
-pip3 install ansible
+pip3 install ansible selinux
 
 deactivate
 
